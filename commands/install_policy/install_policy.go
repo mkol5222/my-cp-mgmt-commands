@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	commands "github.com/mkol5222/my-cp-mgmt-commands/commands"
 )
 
 type arrayFlags []string
