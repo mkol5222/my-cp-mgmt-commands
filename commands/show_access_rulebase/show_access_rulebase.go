@@ -7,15 +7,17 @@ import (
 
 	api_go_sdk "github.com/CheckPointSW/cp-mgmt-api-go-sdk/APIFiles"
 	commands "github.com/mkol5222/my-cp-mgmt-commands/commands"
-
-	"github.com/TylerBrock/colorjson"
 )
 
-func showAccessRulebase(client api_go_sdk.ApiClient, uid string) error {
+func showAccessRulebase(client api_go_sdk.ApiClient, uid string, filter string) error {
 
 	payload := map[string]interface{}{
 		"details-level": "full",
 		"uid":           uid,
+		"filter":        filter,
+		"filter-settings": map[string]interface{}{
+			"search-mode": "packet",
+		},
 	}
 
 	showPackagesRes, err := client.ApiCall("show-access-rulebase", payload, client.GetSessionID(), true, client.IsProxyUsed())
@@ -30,12 +32,12 @@ func showAccessRulebase(client api_go_sdk.ApiClient, uid string) error {
 
 	showPackagesJson := showPackagesRes.GetData()
 
-	f := colorjson.NewFormatter()
-	f.Indent = 4
+	// f := colorjson.NewFormatter()
+	// f.Indent = 4
 
-	// Marshall the Colorized JSON
-	s, _ := f.Marshal(showPackagesJson)
-	fmt.Println(string(s))
+	// // Marshall the Colorized JSON
+	// s, _ := f.Marshal(showPackagesJson)
+	// fmt.Println(string(s))
 
 	objectsList, ok := showPackagesJson["rulebase"].([]interface{})
 
@@ -65,14 +67,14 @@ func showAccessRulebase(client api_go_sdk.ApiClient, uid string) error {
 				tempObject["uid"] = v
 			}
 
-			fmt.Printf("- %s: L: %#v CH: %#v %s\n\n", tempObject["uid"], tempObject["locks"], tempObject["changes"], tempObject["name"])
-			//fmt.Printf("%v\n", objectsMap)
-			f := colorjson.NewFormatter()
-			f.Indent = 4
+			fmt.Printf("- %s: %s\n\n", tempObject["uid"], tempObject["name"])
+			// //fmt.Printf("%v\n", objectsMap)
+			// f := colorjson.NewFormatter()
+			// f.Indent = 4
 
-			// Marshall the Colorized JSON
-			s, _ := f.Marshal(objectsMap)
-			fmt.Println(string(s))
+			// // Marshall the Colorized JSON
+			// s, _ := f.Marshal(objectsMap)
+			// fmt.Println(string(s))
 
 		}
 	} else {
@@ -95,7 +97,12 @@ func main() {
 
 	} else {
 		uid := os.Args[1]
-		showAccessRulebase(apiClient, uid)
+		if len(os.Args) > 2 {
+			filter := os.Args[2]
+			showAccessRulebase(apiClient, uid, filter)
+		} else {
+			showAccessRulebase(apiClient, uid, "")
+		}
 	}
 
 }
