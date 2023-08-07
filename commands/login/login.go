@@ -11,7 +11,7 @@ import (
 func main() {
 	apiClient, err := commands.InitClient()
 	if err != nil {
-		fmt.Println("logout error: " + err.Error())
+		fmt.Println("login error: " + err.Error())
 		os.Exit(1)
 	}
 	log.Printf("Api client initialized successfully with SID %v\n", apiClient.GetSessionID())
