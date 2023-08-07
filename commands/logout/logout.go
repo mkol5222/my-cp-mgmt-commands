@@ -14,7 +14,16 @@ func main() {
 		os.Exit(1)
 	}
 
-	logoutRes, err := apiClient.ApiCall("logout", make(map[string]interface{}), apiClient.GetSessionID(), true, apiClient.IsProxyUsed())
+	payload := make(map[string]interface{})
+	if len(os.Args) < 2 {
+		payload["uid"] = apiClient.GetSessionID()
+	} else {
+		payload["uid"] = os.Args[1]
+	}
+
+	fmt.Printf("Logging out session %s\n", payload["uid"])
+
+	logoutRes, err := apiClient.ApiCall("logout", payload, apiClient.GetSessionID(), true, apiClient.IsProxyUsed())
 	if err != nil {
 		fmt.Println("logout error: " + err.Error())
 		os.Exit(1)

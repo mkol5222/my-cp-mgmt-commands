@@ -14,7 +14,16 @@ func main() {
 		os.Exit(1)
 	}
 
-	discardRes, err := apiClient.ApiCall("discard", map[string]interface{}{}, apiClient.GetSessionID(), true, apiClient.IsProxyUsed())
+	payload := make(map[string]interface{})
+	if len(os.Args) < 2 {
+		payload["uid"] = apiClient.GetSessionID()
+	} else {
+		payload["uid"] = os.Args[1]
+	}
+
+	fmt.Printf("Discarding session %s\n", payload["uid"])
+
+	discardRes, err := apiClient.ApiCall("discard", payload, apiClient.GetSessionID(), true, apiClient.IsProxyUsed())
 	if err != nil {
 		fmt.Println("Discard error: " + err.Error())
 		os.Exit(1)
