@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/CheckPointSW/terraform-provider-checkpoint/commands"
+	commands "github.com/mkol5222/my-cp-mgmt-commands/commands"
 )
 
 func main() {

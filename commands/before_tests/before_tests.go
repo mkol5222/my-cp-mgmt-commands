@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
-	checkpoint "github.com/CheckPointSW/cp-mgmt-api-go-sdk/APIFiles"
-	"github.com/CheckPointSW/terraform-provider-checkpoint/commands"
 	"log"
+
+	checkpoint "github.com/CheckPointSW/cp-mgmt-api-go-sdk/APIFiles"
 )
 
 func addApplicationSite(client checkpoint.ApiClient) error {

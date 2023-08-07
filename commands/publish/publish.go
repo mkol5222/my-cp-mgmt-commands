@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/CheckPointSW/terraform-provider-checkpoint/commands"
 	"os"
+
+	commands "github.com/mkol5222/my-cp-mgmt-commands/commands"
 )
 
 func main() {
